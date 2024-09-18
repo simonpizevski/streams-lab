@@ -11,8 +11,8 @@ public record Product (
      LocalDate modifiedDate
      ) {
     public Product {
-        if (name == null) {
-            throw new NullPointerException("name is null");
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("name is null");
         }
         if (rating < 0 || rating > 10) {
             throw new IllegalArgumentException("rating must be between 0 and 10");
