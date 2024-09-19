@@ -12,6 +12,11 @@ public class WareHouse {
     private final List<Product> products = new ArrayList<>();
 
     public void addProduct(Product product) {
+        for (Product p: products) {
+            if (p.id() == product.id()) {
+                throw new IllegalArgumentException("Duplicate product");
+            }
+        }
         products.add(product);
     }
 
@@ -38,10 +43,12 @@ public class WareHouse {
     }
 
     public List<Product> getProductByCategory(Category category) {
-        return products.stream()
-                .filter(product -> product.category() == category)
-                .sorted((product1, product2) -> product1.name().compareTo(product2.name()))
-                .collect(Collectors.toList());
+        return List.copyOf(
+                products.stream()
+                        .filter(product -> product.category() == category)
+                        .sorted((product1, product2) -> product1.name().compareTo(product2.name()))
+                        .collect(Collectors.toList())
+        );
     }
 
     public List<Product> getProductsByDate(LocalDate date) {
